@@ -1,0 +1,434 @@
+@import 'frappe-ui/style.css';
+
+/* Match Little Royals desk spacing rhythm — Webale brand colors only */
+
+:root {
+  --webale-teal: #0f766e;
+  --webale-teal-dark: #115e59;
+  --webale-teal-soft: #ccfbf1;
+  --webale-accent: #0d9488;
+  --webale-page-x: 1.5rem;
+  --webale-page-y: 1.75rem;
+  --webale-section-gap: 2.5rem;
+  --webale-card-pad: 1.5rem;
+}
+
+:root,
+.webale-shell {
+  --surface-blue-1: #f0fdfa;
+  --surface-blue-2: var(--webale-teal-soft);
+  --surface-blue-3: #99f6e4;
+  --surface-blue-6: var(--webale-teal);
+  --surface-blue-7: var(--webale-teal-dark);
+  --ink-blue-5: var(--webale-teal);
+  --outline-blue-2: color-mix(in srgb, var(--webale-teal) 35%, white);
+}
+
+.webale-shell button.bg-surface-gray-10 {
+  background-color: var(--webale-teal) !important;
+  color: #fff !important;
+}
+.webale-shell button.bg-surface-gray-10:hover {
+  background-color: var(--webale-teal-dark) !important;
+}
+
+
+@media (min-width: 640px) {
+  :root {
+    --webale-page-x: 2.25rem;
+    --webale-page-y: 2.25rem;
+  }
+}
+
+/* Same layout spacing as school-page */
+.webale-page {
+  width: 100%;
+  max-width: 80rem;
+  margin-inline: auto;
+  padding: var(--webale-page-y) var(--webale-page-x);
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+}
+
+.webale-page--workspace {
+  gap: var(--webale-section-gap);
+}
+
+.webale-section {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.webale-section-title {
+  margin: 0;
+  font-size: var(--font-size-base, 1rem);
+  font-weight: 600;
+  color: var(--ink-gray-9);
+}
+
+.webale-card-grid {
+  display: grid;
+  gap: 1.25rem;
+}
+
+.webale-card {
+  border-radius: 0.75rem;
+  border: 1px solid var(--outline-gray-1);
+  background: var(--surface-white);
+  padding: var(--webale-card-pad);
+}
+
+.webale-chart-card {
+  border-radius: 0.75rem;
+  border: 1px solid var(--outline-gray-1);
+  background: var(--surface-white);
+  padding: 1.25rem 1.35rem 1.5rem;
+  min-height: 20rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.webale-chart-card > * {
+  flex: 1;
+  min-height: 16rem;
+}
+
+.webale-hero {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding: 1.5rem 1.65rem;
+  border-radius: 0.875rem;
+  border: 1px solid color-mix(in srgb, var(--webale-teal) 18%, white);
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--webale-teal-soft) 85%, white) 0%,
+    var(--surface-white) 52%,
+    color-mix(in srgb, #99f6e4 40%, white) 100%
+  );
+}
+
+.webale-panel {
+  overflow: hidden;
+  border-radius: 0.75rem;
+  border: 1px solid var(--outline-gray-1);
+  background: var(--surface-white);
+}
+
+.webale-panel-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 1rem;
+  border-bottom: 1px solid var(--outline-gray-1);
+}
+
+.webale-panel-row:last-child {
+  border-bottom: 0;
+}
+
+.webale-code {
+  margin: 0;
+  padding: 1rem 1.15rem;
+  border-radius: 0.65rem;
+  background: #0f172a;
+  color: #e2e8f0;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.78rem;
+  line-height: 1.55;
+  overflow-x: auto;
+  white-space: pre;
+}
+
+.webale-topbar {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  height: 3.5rem;
+  gap: 0.75rem;
+  min-width: 0;
+  padding-inline: 1.125rem;
+  border-bottom: 1px solid
+    color-mix(in srgb, var(--webale-teal) 16%, var(--outline-gray-1));
+  background: var(--surface-white);
+  overflow: visible;
+  position: relative;
+  z-index: 30;
+}
+
+.webale-topbar > * {
+  min-width: 0;
+}
+
+.webale-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  text-decoration: none;
+  color: inherit;
+  flex-shrink: 0;
+}
+
+.webale-mark {
+  display: grid;
+  place-items: center;
+  width: 2.1rem;
+  height: 2.1rem;
+  border-radius: 0.55rem;
+  background: var(--webale-teal);
+  color: #fff;
+  font-weight: 700;
+  font-size: 0.85rem;
+}
+
+.webale-sidebar {
+  position: relative;
+  border-inline-end-color: color-mix(
+    in srgb,
+    var(--webale-teal) 14%,
+    var(--outline-gray-1)
+  ) !important;
+}
+
+.webale-sidebar-scroll {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 0.85rem;
+  overflow-y: auto;
+  padding: 0.55rem 0.55rem 0.75rem;
+}
+
+.webale-sidebar [data-slot='sidebar-item'][data-state='active'] {
+  background-color: color-mix(
+    in srgb,
+    var(--webale-teal) 18%,
+    white
+  ) !important;
+  color: var(--webale-teal-dark) !important;
+  box-shadow: none !important;
+  font-weight: 600;
+}
+
+.webale-sidebar [data-slot='sidebar-item'][data-state='active'] svg {
+  color: var(--webale-teal) !important;
+}
+
+.webale-page-loading {
+  padding: var(--webale-page-y) var(--webale-page-x);
+  color: var(--ink-gray-5);
+}
+
+.webale-tabs-scroll {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  margin-inline: calc(var(--webale-page-x) * -0.25);
+  padding-inline: calc(var(--webale-page-x) * 0.25);
+}
+
+.webale-tabs-scroll > * {
+  min-width: max-content;
+}
+
+.webale-login {
+  min-height: 100dvh;
+  display: grid;
+  place-items: center;
+  padding: 1.5rem;
+  background:
+    radial-gradient(
+      ellipse 80% 60% at 10% 0%,
+      color-mix(in srgb, var(--webale-teal-soft) 70%, white),
+      transparent 55%
+    ),
+    radial-gradient(
+      ellipse 70% 50% at 100% 100%,
+      color-mix(in srgb, #99f6e4 45%, white),
+      transparent 50%
+    ),
+    var(--surface-gray-1, #f8fafc);
+}
+
+.webale-login-card {
+  width: 100%;
+  max-width: 24rem;
+  padding: 1.75rem 1.5rem;
+  border-radius: 1rem;
+  border: 1px solid color-mix(in srgb, var(--webale-teal) 14%, white);
+  background: var(--surface-white);
+  box-shadow: 0 18px 40px color-mix(in srgb, var(--webale-teal) 8%, transparent);
+}
+
+.webale-input {
+  width: 100%;
+  border-radius: 0.55rem;
+  border: 1px solid var(--outline-gray-2, #e2e8f0);
+  background: var(--surface-white);
+  padding: 0.65rem 0.85rem;
+  font-size: 0.9rem;
+  color: var(--ink-gray-9);
+}
+
+.webale-input:focus {
+  outline: 2px solid color-mix(in srgb, var(--webale-teal) 35%, white);
+  border-color: var(--webale-teal);
+}
+
+.webale-login-btn {
+  width: 100%;
+  margin-top: 0.35rem;
+  border: 0;
+  border-radius: 0.55rem;
+  background: var(--webale-teal);
+  color: #fff;
+  font-weight: 600;
+  padding: 0.7rem 1rem;
+  cursor: pointer;
+}
+
+.webale-login-btn:hover:not(:disabled) {
+  background: var(--webale-teal-dark);
+}
+
+.webale-login-btn:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+.webale-topbar-controls {
+  display: flex;
+  flex: 1 1 auto;
+  min-width: 0;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.webale-topbar-tenant {
+  flex: 1 1 10rem;
+  min-width: 0;
+  max-width: 18rem;
+}
+
+.webale-topbar-env {
+  width: 6.5rem;
+  flex-shrink: 0;
+}
+
+.webale-topbar-actions {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.webale-brand-text {
+  display: none;
+}
+
+@media (min-width: 480px) {
+  .webale-brand-text {
+    display: block;
+  }
+}
+
+@media (max-width: 767px) {
+  .webale-topbar {
+    height: auto;
+    min-height: 3.5rem;
+    flex-wrap: wrap;
+    padding-block: 0.55rem;
+    row-gap: 0.55rem;
+  }
+
+  .webale-topbar-controls {
+    order: 3;
+    flex: 1 1 100%;
+  }
+
+  .webale-topbar-tenant {
+    max-width: none;
+  }
+
+  .webale-topbar-hide-md {
+    display: none !important;
+  }
+
+  .webale-hero {
+    padding: 1.15rem 1.2rem;
+  }
+
+  .webale-hero h1 {
+    font-size: 1.35rem;
+  }
+
+  .webale-card-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .webale-chart-card {
+    min-height: 16rem;
+  }
+
+  .webale-panel-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .webale-page {
+    gap: 1.35rem;
+  }
+
+  .webale-mobile-shell[data-slot='mobile-shell'] {
+    position: absolute;
+    inset: 0;
+  }
+
+  .webale-mobile-nav {
+    border-top: 1px solid
+      color-mix(in srgb, var(--webale-teal) 14%, var(--outline-gray-1));
+    background: var(--surface-white);
+    padding-bottom: env(safe-area-inset-bottom, 0);
+  }
+}
+
+@media (max-width: 639px) {
+  :root {
+    --webale-page-x: 1rem;
+    --webale-page-y: 1.15rem;
+    --webale-card-pad: 1.1rem;
+    --webale-section-gap: 1.75rem;
+  }
+
+  .webale-topbar-hide-sm {
+    display: none !important;
+  }
+
+  .webale-topbar-logout span:not([class*='lucide']) {
+    display: none;
+  }
+
+  .webale-login-card {
+    padding: 1.35rem 1.15rem;
+  }
+}
+
+@media (max-width: 419px) {
+  .webale-topbar-hide-xs {
+    display: none !important;
+  }
+
+  .webale-topbar-badge {
+    display: none !important;
+  }
+
+  .webale-topbar-env {
+    width: 5.5rem;
+  }
+}
