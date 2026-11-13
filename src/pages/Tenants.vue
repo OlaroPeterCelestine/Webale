@@ -10,9 +10,18 @@ import {
   toast,
 } from 'frappe-ui'
 import { setTenant, tenants } from '../data/platform'
+import StatCards from '../components/StatCards.vue'
 
 const router = useRouter()
 const query = ref('')
+
+const stats = computed(() => [
+  { title: 'Tenants', value: tenants.length, caption: 'on platform' },
+  { title: 'Active', value: tenants.filter((t) => t.status === 'Active').length, caption: 'live' },
+  { title: 'Pending KYC', value: tenants.filter((t) => t.status === 'Pending KYC').length, caption: 'review' },
+  { title: 'Live volume', value: Math.round(tenants.reduce((n, t) => n + t.liveVolume, 0) / 1_000_000), suffix: 'M UGX', caption: 'all tenants' },
+])
+
 
 const filtered = computed(() => {
   const q = query.value.trim().toLowerCase()
@@ -54,6 +63,8 @@ function enterTenant(id: string) {
   </PageHeader>
 
   <div class="webale-page max-w-5xl">
+    <StatCards :stats="stats" />
+
     <p class="text-p-base text-ink-gray-6">
       Each tenant is an isolated business account. Open Tenant 360 for a full
       profile across payments, balances, risk, and developers.

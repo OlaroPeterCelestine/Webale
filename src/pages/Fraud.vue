@@ -1,12 +1,21 @@
 <script setup lang="ts">
+import { computed } from 'vue'
 import { Badge, Button, PageHeader, PageHeaderTitle, toast } from 'frappe-ui'
 import { fraudRules } from '../data/platform'
+import StatCards from '../components/StatCards.vue'
 
 function actionTheme(a: string) {
   if (a === 'Block') return 'red'
   if (a === 'Review') return 'amber'
   return 'green'
 }
+
+const stats = computed(() => [
+  { title: 'Rules', value: fraudRules.length, caption: 'configured' },
+  { title: 'Active', value: fraudRules.filter((r) => r.status === 'Active').length },
+  { title: 'Hits', value: fraudRules.reduce((n, r) => n + r.hits, 0), caption: 'all time' },
+  { title: 'Blocks', value: fraudRules.filter((r) => r.action === 'Block' && r.status === 'Active').length },
+])
 </script>
 
 <template>
@@ -15,6 +24,8 @@ function actionTheme(a: string) {
     <Button variant="solid" icon-left="lucide-plus" label="Add rule" @click="toast.success('Demo: rule draft created')" />
   </PageHeader>
   <div class="webale-page max-w-5xl">
+    <StatCards :stats="stats" />
+
     <p class="text-p-base text-ink-gray-6">Velocity, BIN and device rules that block or send charges for review.</p>
     <section class="webale-section">
       <div class="webale-panel">

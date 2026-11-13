@@ -120,6 +120,12 @@ function statusTheme(status: string) {
       <h2 class="webale-section-title">Key figures</h2>
       <div class="webale-card-grid sm:grid-cols-2 lg:grid-cols-4">
         <NumberCard
+          title="Live volume"
+          :value="Math.round(kpis.liveVolumeApprox / 1_000_000)"
+          suffix="M UGX"
+          delta-caption="successful live"
+        />
+        <NumberCard
           title="Tenants"
           :value="kpis.tenants"
           :delta="kpis.activeTenants"
@@ -133,6 +139,14 @@ function statusTheme(status: string) {
           delta-caption="pts"
         />
         <NumberCard
+          title="Failed today"
+          :value="kpis.failedToday"
+          negative-is-better
+          delta-caption="this env"
+        />
+      </div>
+      <div class="webale-card-grid sm:grid-cols-2 lg:grid-cols-4">
+        <NumberCard
           title="KYC pending"
           :value="risk.kycPending"
           delta-caption="review queue"
@@ -141,6 +155,18 @@ function statusTheme(status: string) {
           title="Open disputes"
           :value="risk.openDisputes"
           negative-is-better
+        />
+        <NumberCard
+          title="Error logs"
+          :value="risk.errorLogs"
+          negative-is-better
+          delta-caption="audit"
+        />
+        <NumberCard
+          title="Degraded services"
+          :value="risk.degraded"
+          negative-is-better
+          delta-caption="health"
         />
       </div>
     </section>

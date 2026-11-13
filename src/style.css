@@ -187,6 +187,7 @@
   font-size: 0.85rem;
 }
 
+/* Sidebar: same balanced spacing as school desk */
 .webale-sidebar {
   position: relative;
   border-inline-end-color: color-mix(
@@ -196,6 +197,33 @@
   ) !important;
 }
 
+.webale-sidebar-header {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 0.25rem;
+  min-width: 0;
+  padding-inline-end: 0.45rem;
+  border-bottom: 1px solid
+    color-mix(in srgb, var(--webale-teal) 12%, var(--outline-gray-1));
+  overflow: hidden;
+}
+
+.webale-sidebar-header [data-slot='sidebar-header'] {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  border-bottom: 0 !important;
+}
+
+.webale-sidebar[data-state='collapsed'] .webale-sidebar-header {
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+  padding-block: 0.35rem;
+  padding-inline-end: 0.35rem;
+}
+
 .webale-sidebar-scroll {
   display: flex;
   flex: 1;
@@ -203,6 +231,60 @@
   gap: 0.85rem;
   overflow-y: auto;
   padding: 0.55rem 0.55rem 0.75rem;
+}
+
+.webale-sidebar-footer {
+  display: flex;
+  flex-shrink: 0;
+  flex-direction: column;
+  gap: 0.15rem;
+  border-top: 1px solid var(--outline-gray-1);
+  padding: 0.55rem 0.55rem 0.75rem;
+}
+
+.webale-sidebar[data-state='collapsed'] .webale-sidebar-scroll,
+.webale-sidebar[data-state='collapsed'] .webale-sidebar-footer {
+  padding-inline: 0.35rem;
+}
+
+.webale-sidebar-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.webale-sidebar-items {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.webale-sidebar [data-slot='sidebar-item'] {
+  height: 2.25rem !important;
+  min-height: 2.25rem !important;
+  margin-block: 0 !important;
+  border-radius: 0.4rem !important;
+}
+
+.webale-sidebar [data-slot='sidebar-item'] a,
+.webale-sidebar [data-slot='sidebar-item'] button {
+  gap: 0.6rem !important;
+  padding-inline: 0.55rem !important;
+}
+
+.webale-sidebar [data-slot='sidebar-label'] {
+  height: auto !important;
+  min-height: 1.5rem !important;
+  margin: 0 !important;
+  padding: 0.35rem 0.55rem 0.15rem !important;
+}
+
+.webale-sidebar [data-slot='sidebar-label'] h3 {
+  font-size: 0.6875rem !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.05em !important;
+  text-transform: uppercase !important;
+  color: var(--ink-gray-5) !important;
 }
 
 .webale-sidebar [data-slot='sidebar-item'][data-state='active'] {

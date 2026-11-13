@@ -1,10 +1,26 @@
 <script setup lang="ts">
+import { computed, ref } from 'vue'
 import { Badge, Button, PageHeader, PageHeaderTitle, toast } from 'frappe-ui'
 import {
   isPlatformView,
   scopedWebhooks,
   tenantName,
 } from '../data/platform'
+import { scopedWebhookDeliveries } from '../data/features'
+
+const selectedId = ref(scopedWebhooks.value[0]?.id || '')
+
+const deliveries = computed(() =>
+  scopedWebhookDeliveries.value.filter(
+    (d) => !selectedId.value || d.webhookId === selectedId.value,
+  ),
+)
+
+function deliveryTheme(s: string) {
+  if (s === 'Delivered') return 'green'
+  if (s === 'Retrying') return 'amber'
+  return 'red'
+}
 </script>
 
 <template>
@@ -20,16 +36,17 @@ import {
 
   <div class="webale-page max-w-5xl">
     <p class="text-p-base text-ink-gray-6">
-      Per-tenant event delivery for charge and transfer lifecycle.
+      Per-tenant endpoints plus delivery attempts and retry controls.
     </p>
 
-    <div
-      class="overflow-hidden rounded-6 border border-outline-gray-1 bg-surface-white"
-    >
-      <div
+    <div class="webale-panel">
+      <button
         v-for="w in scopedWebhooks"
         :key="w.id"
-        class="flex flex-wrap items-start justify-between gap-3 border-b border-outline-gray-1 px-4 py-4 last:border-b-0"
+        type="button"
+        class="webale-panel-row w-full items-start text-start"
+        :class="selectedId === w.id ? 'bg-surface-gray-1' : ''"
+        @click="selectedId = w.id"
       >
         <div class="min-w-0 space-y-1">
           <div class="flex flex-wrap items-center gap-2">
@@ -48,7 +65,56 @@ import {
             Last delivery {{ w.lastDelivery }}
           </p>
         </div>
-      </div>
+      </button>
     </div>
+
+    <section class="webale-section">
+      <div class="flex flex-wrap items-center justify-between gap-2">
+        <h2 class="webale-section-title">Delivery log</h2>
+        <Button
+          icon-left="lucide-rotate-cw"
+          label="Retry failed"
+          @click="toast.success('Demo: failed deliveries re-queued')"
+        />
+      </div>
+      <div class="webale-panel">
+        <div
+          v-for="d in deliveries"
+          :key="d.id"
+          class="webale-panel-row items-center"
+        >
+          <div class="space-y-1">
+            <div class="flex flex-wrap items-center gap-2">
+              <p class="font-mono text-sm-medium">{{ d.event }}</p>
+              <Badge
+                :label="d.status"
+                :theme="deliveryTheme(d.status)"
+                variant="subtle"
+              />
+            </div>
+            <p class="text-xs text-ink-gray-5">
+              HTTP {{ d.responseCode }} · {{ d.attempts }} attempt{{
+                d.attempts === 1 ? '' : 's'
+              }}
+              · {{ d.at }}
+              <template v-if="isPlatformView">
+                · {{ tenantName(d.tenantId) }}
+              </template>
+            </p>
+          </div>
+          <Button
+            v-if="d.status !== 'Delivered'"
+            label="Retry"
+            @click="toast.success(`Demo: retry ${d.event}`)"
+          />
+        </div>
+        <p
+          v-if="!deliveries.length"
+          class="px-4 py-8 text-center text-sm text-ink-gray-5"
+        >
+          No deliveries for this endpoint.
+        </p>
+      </div>
+    </section>
   </div>
 </template>

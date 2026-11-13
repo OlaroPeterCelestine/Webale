@@ -16,22 +16,47 @@ const groups = [
       '/refunds',
       '/transfers',
       '/customers',
+      '/settlements',
+      '/settlement-accounts',
+    ],
+  },
+  {
+    title: 'Products',
+    routes: [
+      '/invoices',
+      '/subscriptions',
+      '/virtual-accounts',
+      '/beneficiaries',
       '/subaccounts',
       '/payment-links',
-      '/settlements',
+      '/checkout',
+      '/fx',
     ],
   },
   {
     title: 'Risk & compliance',
-    routes: ['/disputes', '/fraud', '/kyc', '/logs'],
+    routes: ['/disputes', '/fraud', '/identity', '/kyc', '/logs'],
   },
   {
     title: 'Admin',
-    routes: ['/team', '/system'],
+    routes: [
+      '/team',
+      '/fees',
+      '/notifications',
+      '/reports',
+      '/support',
+      '/system',
+    ],
   },
   {
     title: 'Developers',
-    routes: ['/simulator', '/webhooks', '/api-keys', '/developers'],
+    routes: [
+      '/simulator',
+      '/webhooks',
+      '/events',
+      '/api-keys',
+      '/developers',
+    ],
   },
 ]
 

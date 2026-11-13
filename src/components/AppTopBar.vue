@@ -3,11 +3,11 @@ import { computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { Avatar, Badge, Button, FormControl } from 'frappe-ui'
 import { authSession, logout } from '../data/auth'
+import { unreadNotifications } from '../data/features'
 import {
   currentTenant,
   isPlatformView,
   platform,
-  platformKpis,
   session,
   setEnvironment,
   setTenant,
@@ -41,8 +41,8 @@ const envSelect = computed({
 })
 
 const badge = computed(() =>
-  platformKpis.value.failedToday > 0
-    ? String(Math.min(platformKpis.value.failedToday, 9))
+  unreadNotifications.value > 0
+    ? String(Math.min(unreadNotifications.value, 9))
     : '',
 )
 
@@ -112,6 +112,7 @@ function openTenant360() {
         type="button"
         class="relative inline-flex size-8 items-center justify-center rounded-4 text-ink-gray-7 hover:bg-surface-gray-2"
         aria-label="Notifications"
+        @click="$router.push('/notifications')"
       >
         <span class="lucide-bell size-4" aria-hidden="true" />
         <span

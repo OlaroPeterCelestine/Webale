@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { computed } from 'vue'
 import { Badge, Button, PageHeader, PageHeaderTitle, toast } from 'frappe-ui'
 import {
   isPlatformView,
@@ -11,6 +12,18 @@ function statusTheme(status: string) {
   if (status === 'Processing') return 'blue'
   return 'amber'
 }
+
+const stats = computed(() => {
+  const rows = scopedSettlements.value
+  const paid = rows.filter((s) => s.status === 'Paid')
+  return [
+    { title: 'Settlements', value: rows.length, caption: 'batches' },
+    { title: 'Paid', value: paid.length },
+    { title: 'Queued', value: rows.filter((s) => s.status === 'Queued').length },
+    { title: 'Paid volume', value: Math.round(paid.reduce((n, s) => n + s.amount, 0) / 1_000_000), suffix: 'M UGX' },
+  ]
+})
+
 </script>
 
 <template>
@@ -25,6 +38,8 @@ function statusTheme(status: string) {
   </PageHeader>
 
   <div class="webale-page max-w-5xl">
+    <StatCards :stats="stats" />
+
     <p class="text-p-base text-ink-gray-6">
       Tenant payouts to settlement accounts (T+1 / T+2).
     </p>

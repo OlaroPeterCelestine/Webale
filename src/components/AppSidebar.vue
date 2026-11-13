@@ -1,11 +1,12 @@
 <script setup lang="ts">
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import {
   Sidebar,
   SidebarHeader,
   SidebarItem,
   SidebarLabel,
 } from 'frappe-ui'
+import { authSession, logout } from '../data/auth'
 import {
   currentTenant,
   isPlatformView,
@@ -14,6 +15,7 @@ import {
 } from '../data/platform'
 
 const route = useRoute()
+const router = useRouter()
 
 function isActive(path: string) {
   if (path === '/') return route.path === '/'
@@ -23,30 +25,63 @@ function isActive(path: string) {
   return route.path === path || route.path.startsWith(`${path}/`)
 }
 
-function group(routes: string[]) {
-  return platformNav.filter((i) => routes.includes(i.route))
+function group(title: string, routes: string[]) {
+  return {
+    title,
+    items: platformNav.filter((i) => routes.includes(i.route)),
+  }
 }
 
-const ops = group([
-  '/',
-  '/tenants',
-  '/balances',
-  '/transactions',
-  '/refunds',
-  '/transfers',
-  '/customers',
-  '/subaccounts',
-  '/payment-links',
-  '/settlements',
-])
-const risk = group(['/disputes', '/fraud', '/kyc', '/logs'])
-const admin = group(['/team', '/system'])
-const developers = group([
-  '/simulator',
-  '/webhooks',
-  '/api-keys',
-  '/developers',
-])
+const navGroups = [
+  group('Operations', [
+    '/',
+    '/tenants',
+    '/balances',
+    '/transactions',
+    '/refunds',
+    '/transfers',
+    '/customers',
+    '/settlements',
+    '/settlement-accounts',
+  ]),
+  group('Products', [
+    '/invoices',
+    '/subscriptions',
+    '/virtual-accounts',
+    '/beneficiaries',
+    '/subaccounts',
+    '/payment-links',
+    '/checkout',
+    '/fx',
+  ]),
+  group('Risk & compliance', [
+    '/disputes',
+    '/fraud',
+    '/identity',
+    '/kyc',
+    '/logs',
+  ]),
+  group('Admin', [
+    '/team',
+    '/fees',
+    '/notifications',
+    '/reports',
+    '/support',
+    '/system',
+  ]),
+  group('Developers', [
+    '/simulator',
+    '/webhooks',
+    '/events',
+    '/api-keys',
+    '/developers',
+  ]),
+]
+
+function signOut() {
+  logout()
+  router.push({ name: 'login' })
+}
 </script>
 
 <template>
@@ -56,64 +91,50 @@ const developers = group([
     collapsed-width="3.25rem"
     class="webale-sidebar border-e border-outline-gray-1"
   >
-    <SidebarHeader
-      :title="platform.name"
-      :subtitle="
-        isPlatformView
-          ? 'Enterprise admin'
-          : currentTenant?.slug || 'Tenant desk'
-      "
-    >
-      <template #prefix>
-        <span class="webale-mark !size-8 text-sm">W</span>
-      </template>
-    </SidebarHeader>
+    <div class="webale-sidebar-header">
+      <SidebarHeader
+        :title="platform.name"
+        :subtitle="
+          isPlatformView
+            ? 'Enterprise admin'
+            : currentTenant?.slug || 'Tenant desk'
+        "
+        class="min-w-0 flex-1"
+      >
+        <template #prefix>
+          <span class="webale-mark !size-8 text-sm">W</span>
+        </template>
+      </SidebarHeader>
+    </div>
 
     <div class="webale-sidebar-scroll">
-      <div>
-        <SidebarLabel divider>Operations</SidebarLabel>
-        <SidebarItem
-          v-for="item in ops"
-          :key="item.route"
-          :label="item.label"
-          :icon="item.icon"
-          :route="item.route"
-          :active="isActive(item.route)"
-        />
+      <div
+        v-for="groupItem in navGroups"
+        :key="groupItem.title"
+        class="webale-sidebar-group"
+      >
+        <SidebarLabel divider>{{ groupItem.title }}</SidebarLabel>
+        <div class="webale-sidebar-items">
+          <SidebarItem
+            v-for="item in groupItem.items"
+            :key="item.route"
+            :label="item.label"
+            :icon="item.icon"
+            :route="item.route"
+            :active="isActive(item.route)"
+          />
+        </div>
       </div>
-      <div>
-        <SidebarLabel divider>Risk & compliance</SidebarLabel>
-        <SidebarItem
-          v-for="item in risk"
-          :key="item.route"
-          :label="item.label"
-          :icon="item.icon"
-          :route="item.route"
-          :active="isActive(item.route)"
-        />
-      </div>
-      <div>
-        <SidebarLabel divider>Admin</SidebarLabel>
-        <SidebarItem
-          v-for="item in admin"
-          :key="item.route"
-          :label="item.label"
-          :icon="item.icon"
-          :route="item.route"
-          :active="isActive(item.route)"
-        />
-      </div>
-      <div>
-        <SidebarLabel divider>Developers</SidebarLabel>
-        <SidebarItem
-          v-for="item in developers"
-          :key="item.route"
-          :label="item.label"
-          :icon="item.icon"
-          :route="item.route"
-          :active="isActive(item.route)"
-        />
-      </div>
+    </div>
+
+    <div class="webale-sidebar-footer">
+      <SidebarItem
+        :label="authSession?.name || 'Account'"
+        icon="lucide-user-round"
+        route="/more"
+        :active="route.path === '/more'"
+      />
+      <SidebarItem label="Log out" icon="lucide-log-out" @click="signOut" />
     </div>
   </Sidebar>
 </template>

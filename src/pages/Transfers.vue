@@ -1,12 +1,26 @@
 <script setup lang="ts">
+import { computed } from 'vue'
 import { Badge, Button, PageHeader, PageHeaderTitle, toast } from 'frappe-ui'
 import { isPlatformView, scopedTransfers, tenantName } from '../data/platform'
+import StatCards from '../components/StatCards.vue'
 
 function theme(s: string) {
   if (s === 'Successful') return 'green'
   if (s === 'Pending') return 'amber'
   return 'red'
 }
+
+const stats = computed(() => {
+  const rows = scopedTransfers.value
+  const ok = rows.filter((t) => t.status === 'Successful')
+  return [
+    { title: 'Transfers', value: rows.length, caption: 'in scope' },
+    { title: 'Successful', value: ok.length },
+    { title: 'Pending', value: rows.filter((t) => t.status === 'Pending').length },
+    { title: 'Volume', value: Math.round(ok.reduce((n, t) => n + t.amount, 0) / 1000), suffix: 'K UGX' },
+  ]
+})
+
 </script>
 
 <template>
@@ -15,6 +29,8 @@ function theme(s: string) {
     <Button variant="solid" icon-left="lucide-send" label="New transfer" @click="toast.success('Demo: transfer initiated')" />
   </PageHeader>
   <div class="webale-page max-w-5xl">
+    <StatCards :stats="stats" />
+
     <p class="text-p-base text-ink-gray-6">Outbound payouts to bank or mobile money beneficiaries.</p>
     <section class="webale-section">
       <div class="webale-panel">
